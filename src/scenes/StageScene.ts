@@ -23,6 +23,7 @@ export class StageScene extends Phaser.Scene {
   private xpBar!: Phaser.GameObjects.Rectangle;
   private timerText!: Phaser.GameObjects.Text;
   private youkakuText!: Phaser.GameObjects.Text;
+  private densityText!: Phaser.GameObjects.Text;
 
   // ゲーム状態
   private paused: boolean = false;
@@ -89,6 +90,11 @@ export class StageScene extends Phaser.Scene {
       fontSize: '16px',
       color: '#cc88ff',
     }).setOrigin(1, 1).setDepth(102);
+
+    this.densityText = this.add.text(10, this.scale.height - 10, '密度 x1.00', {
+      fontSize: '16px',
+      color: '#ffcc44',
+    }).setOrigin(0, 1).setDepth(102);
   }
 
   update(time: number, delta: number): void {
@@ -237,6 +243,9 @@ export class StageScene extends Phaser.Scene {
     const m = Math.floor(elapsed / 60).toString().padStart(2, '0');
     const s = (elapsed % 60).toString().padStart(2, '0');
     this.timerText.setText(`${m}:${s}`);
+
+    const density = this.waveSystem.getDensity();
+    this.densityText.setText(`密度 x${density.toFixed(2)}`);
   }
 
   private onLevelUp(level: number): void {
